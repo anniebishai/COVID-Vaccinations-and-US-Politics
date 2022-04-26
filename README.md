@@ -49,7 +49,7 @@ The KMeans model fit the data best with three clusters:
 
 The features used in the model, and the mean of each feature by cluster (i.e. the centroid locations), are displayed here:
 
-| Cluster | Green | Yellow | Red |
+| Cluster | Green | Yellow | Orange |
 |---------|---|---|---|
 | Pct_Hesitant_Feb22 | 0.293 | 0.176 | 0.252 |
 | Pct_Somewhat_Hesitant_Feb22 | 0.083 | 0.050 | 0.074 |
@@ -70,19 +70,19 @@ The features used in the model, and the mean of each feature by cluster (i.e. th
 
 *Green Cluster*
 
-- These counties have the highest vaccine hesitancy, but their vaccination rates are in the middle of the pack. This could be due to the red cluster's vaccination averages being brought down by non-reporting.
-- These counties are generally rural (metro status=0); their social vulnerability is high as measured by socioeconomic status and about the same overall as the red cluster's.
+- These counties have the highest vaccine hesitancy, but their vaccination rates are in the middle of the pack. This could be due to the orange cluster's vaccination averages being brought down by non-reporting.
+- These counties are generally rural (metro status=0); their social vulnerability is high as measured by socioeconomic status and about the same overall as the orange cluster's.
 - Trump won the election in 94.8% of these counties, the highest percent among all the clusters.
 - Overall this cluster appears demographically and politically similar to Cluster 2.
 
 *Yellow Cluster*
 
 - These counties have the lowest hesitancy and highest vaccination rates overall.
-- These counties are most urban (metro status=1) on average and comprise the largest total population (about 5x the population of the green cluster and 8x the population of the red cluster).
+- These counties are most urban (metro status=1) on average and comprise the largest total population (about 5x the population of the green cluster and 8x the population of the orange cluster).
 - These counties have the lowest social vulnerability rankings overall and by socioeconomic status, but they contain more minority population than the green cluster.
 - These counties had the lowest rates of voting for Trump, with Trump victory occurring in 64% of counties compared to 83% nationwide.
 
-*Red Cluster*
+*Orange Cluster*
 
 - Most counties that did not report vaccination data are in this cluster. Nearly half of these counties are in Texas.
 - Possibly due to non-reporting, these counties' vaccination rates are the lowest. The hesitancy rates (17.8% on average are highly hesitant), however, support the hypothesis that vaccination efforts have in fact faced barriers in these counties.
