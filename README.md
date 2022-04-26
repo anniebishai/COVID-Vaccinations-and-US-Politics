@@ -113,4 +113,12 @@ The stacked classification model successfully predicted 2020 election results wi
 
 The outcomes of both modeling exercises generally reinforce what has been observed about politics and COVID vaccination, and they allow some insight into specific trends and variable relationships as seen in the notebooks and slides contained in this repo. In addition to potential usefulness of this investigation to public health officials and government at the state and federal levels, the project is also of use to the general public, as a snapshot of where we were and where we are, and the extent to which the politics of two years ago are still largely replicated in our pandemic response.
 
+# Next Steps
+
+We did not yet investigate which features in the data might be separating counties in ways that did not match the political divide. It would be worthwhile to continue this project by digging deeper into the counties whose clustering did not go along with the trend--e.g. the Trump-supporting counties that had higher vaccination rates and that the model placed into the yellow cluster, and Biden-supporting counties that the model placed in the orange cluster. 
+
+It would also be useful to collect more COVID-related and political data as time goes on, so that the stacking model could be used to predict future political contests. 
+
+Finally, there are certainly additional social and demographic variables that were not included in these models which subject-area experts might identify as pertinent, and our work might be improved by making these additions or changes. We would welcome anyone's input in building upon our work.
+
 **Please see the wiki for further documentation on sources. Thank you for visiting!**
