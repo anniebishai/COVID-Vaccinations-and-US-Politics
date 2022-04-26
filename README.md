@@ -73,7 +73,7 @@ The features used in the model, and the mean of each feature by cluster (i.e. th
 - These counties have the highest vaccine hesitancy, but their vaccination rates are in the middle of the pack. This could be due to the orange cluster's vaccination averages being brought down by non-reporting.
 - These counties are generally rural (metro status=0); their social vulnerability is high as measured by socioeconomic status and about the same overall as the orange cluster's.
 - Trump won the election in 94.8% of these counties, the highest percent among all the clusters.
-- Overall this cluster appears demographically and politically similar to Cluster 2.
+- Overall this cluster appears demographically and politically similar to the orange cluster.
 
 *Yellow Cluster*
 
@@ -107,7 +107,7 @@ Because Trump won 83% of all counties, the baseline model would be 83% accurate 
 
 Our KMeans clustering model was partially successful in lending insight to the relationships among demographic, social vulnerability, and vaccine-related factors in the United States, and the relationship of these factors to election outcomes in 2020. We selected features for which the data was best modeled in three clusters, which necessarily lent insight into patterns of stratification with more detail than the red-state/blue-state divide. The three clusters that the model found did show marked differences in their 2020 election outcomes, supporting this portion of our hypothesis. 
 
-However, as we foresaw, the clustering model suffered from missing data bearing a conceivable relationship (causal or not) to politics. Interestingly, counties that did not report data at one or more points in time were grouped into a single cluster (Cluster 2) which was otherwise relatively similar to another (Cluster 0). It is likely that this model is overfitted to this particular moment in time, and that the information from our clusters should not be the basis for generalization.
+However, as we foresaw, the clustering model suffered from missing data bearing a conceivable relationship (causal or not) to politics. Interestingly, counties that did not report data at one or more points in time were grouped into a single cluster (Orange) which was otherwise relatively similar to another (Green). It is likely that this model is overfitted to this particular moment in time, and that the information from our clusters should not be the basis for generalization.
 
 The stacked classification model successfully predicted 2020 election results with a higher degree of accuracy than the baseline using vaccination-related variables. This further supports our hypothesis that these variables are closely related. However, the fact that the vaccination data contained many missing values and that these values were represented as zeroes suggests that caution should be taken in interpreting specific numeric relationships regarding vaccine-related observations.
 
