@@ -12,26 +12,40 @@ Even the reddest states have blue counties, and vice versa, and the COVID pandem
 
 # Exploratory Data Analysis
 
-Initial visualizations of the vaccine-related and political data reveals substantial differences in vaccination rates and hesitancy rates between Trump counties and Biden counties. For example, while early vaccination rates (in March 2020 -- when the vaccine was mostly available to people over 65 and those with underlying conditions) were similar, the rate of first vaccination administration in Trump counties lagged far behind those seen in Biden counties by March 2022:
+Initial visualizations of the vaccine-related and political data reveals substantial differences in vaccination rates and hesitancy rates between Trump counties and Biden counties. 
+
+For example, while early vaccination rates (in March 2020 -- when the vaccine was mostly available to people over 65 and those with underlying conditions) were similar, the rate of first vaccination administration in Trump counties lagged far behind those seen in Biden counties by March 2022:
 
 
+<p float="left">
+  <img src="graphs/BidenVaxTime.png" width="49%" />
+  <img src="graphs/TrumpVaxTime.png" width="49%" /> 
+</p>
 
+EDA also revealed higher rates of vaccine hesitancy in Trump-supporting counties and in rural counties:
+
+<p float="left">
+  <img src="graphs/TrumpUnvaxHes.png" width="75%" />
+</p>
 
 # Hypothesis
 
-We hypothesize that applying a KMeans clustering model to our vaccine- and vaccine hesitancy-related data will reveal stratification within states along similar lines to those seen in the 2020 presidential election. We predict that with the inclusion of demographic and socioeconomic data not directly related to COVID, this model will generally continue to reflect those patterns. This hypothesis is informed by the fact of missing data, which may limit the model's ability to discern other meaningful differences among counties.
+Based on our exploration of the data, we hypothesize that fitting a KMeans clustering model to our vaccine- and vaccine hesitancy-related data will reveal stratification within states along similar lines to those seen in the 2020 presidential election. We predict that with the inclusion of demographic and socioeconomic data not directly related to COVID, this model will generally continue to reflect those patterns. This hypothesis is informed by the fact of missing data, which may limit the model's ability to discern other meaningful differences among counties.
 
 Because of the close vaccine/election relationships in these data we have observed--and hope to observe further through our clustering model--we additionally predict that applying a supervised machine learning model to the same data may yield an accurate prediction of the voting tendencies of a county. We will explore this by training the model with a target variable drawn from the 2020 presidential election results.
 
-![Biden county vax rates](graphs/BidenVaxTime.png?raw=true)
-
-# Modeling 
+# Models
 
 ## KMeans Clustering
 
-The KMeans model fit the data best with three clusters. The features used in the model, and the mean of each feature by cluster (i.e. the centroid locations), are displayed here:
+The KMeans model fit the data best with three clusters:
 
-| Cluster | 0 | 1 | 2 |
+![cluster map](graphs/cluster_map.png?raw=True)
+
+
+The features used in the model, and the mean of each feature by cluster (i.e. the centroid locations), are displayed here:
+
+| Cluster | Green | Yellow | Red |
 |---------|---|---|---|
 | Pct_Hesitant_Feb22 | 0.293 | 0.176 | 0.252 |
 | Pct_Somewhat_Hesitant_Feb22 | 0.083 | 0.050 | 0.074 |
@@ -50,35 +64,40 @@ The KMeans model fit the data best with three clusters. The features used in the
 
 **Summary of observations from clustering model:**
 
-*Cluster 0*
+*Green Cluster*
 
-- These counties have the highest vaccine hesitancy, but their vaccination rates are in the middle of the pack. This could be due to Cluster 2's vaccination averages being brought down by non-reporting.
-- These counties are generally rural (metro status=0); their social vulnerability is high as measured by socioeconomic status and about the same overall as Cluster 2's.
+- These counties have the highest vaccine hesitancy, but their vaccination rates are in the middle of the pack. This could be due to the red cluster's vaccination averages being brought down by non-reporting.
+- These counties are generally rural (metro status=0); their social vulnerability is high as measured by socioeconomic status and about the same overall as the red cluster's.
 - Trump won the election in 94.8% of these counties, the highest percent among all the clusters.
 - Overall this cluster appears demographically and politically similar to Cluster 2.
 
-*Cluster 1*
+*Yellow Cluster*
 
 - These counties have the lowest hesitancy and highest vaccination rates overall.
-- These counties are most urban (metro status=1) on average and comprise the largest total population (about 5x the population of Cluster 0 and 8x the population of Cluster 2).
-- These counties have the lowest social vulnerability rankings overall and by socioeconomic status, but they contain more minority population than Cluster 0.
+- These counties are most urban (metro status=1) on average and comprise the largest total population (about 5x the population of the green cluster and 8x the population of the red cluster).
+- These counties have the lowest social vulnerability rankings overall and by socioeconomic status, but they contain more minority population than the green cluster.
 - These counties had the lowest rates of voting for Trump, with Trump victory occurring in 64% of counties compared to 83% nationwide.
 
-*Cluster 2*
+*Red Cluster*
 
 - Most counties that did not report vaccination data are in this cluster. Nearly half of these counties are in Texas.
 - Possibly due to non-reporting, these counties' vaccination rates are the lowest. The hesitancy rates (17.8% on average are highly hesitant), however, support the hypothesis that vaccination efforts have in fact faced barriers in these counties.
-- These counties have the highest social based on minority status, but comparable overall social vulnerability to Cluster 0.
-- These counties had an above-average rate of Trump election victory, but not as high a rate as Cluster 0.
+- These counties have the highest social based on minority status, but comparable overall social vulnerability to the green cluster.
+- These counties had an above-average rate of Trump election victory, but not as high a rate as the green cluster.
 
+A map showing percentage of votes for **Trump (red)** and **Biden (blue)** reveals that counties in the yellow cluster -- which had the highest vaccination rates -- tended to vote for Biden:
+
+![election map](graphs/Election_map.png?raw=True)
 
 ## Classification Model
 
-*By Andy Orfalea*
+To further investigate the relationship between the COVID vaccine and politics, and because the KMeans clustering model produced clusters with distinct differences in voting patterns without using this as a feature, we wanted to see if we could predict 2020 county election results using COVID vaccine data. In predicting this, our model used COVID vaccine statistics as well as two county demographic metrics we felt were very relevant to COVID-- "Percent of Population over 65 years old" and "SVI Category".
 
-To further investigate the relationship between the COVID vaccine and politics, and because the KMeans clustering model produced clusters with distinct differences in voting patterns without using this as a feature, we wanted to see if we could predict 2020 county election results using COVID vaccine data. In predicting this, our model primarily used COVID vaccine statistics but we also added two county demographic stats we felt were very relevant to COVID-- "Percent of Population over 65 years old" and "SVI Category".
+Because Trump won 83% of all counties, the baseline model would be 83% accurate and that’s what we set out to beat.  After trying multiple models, we landed on a Stacking model that ensembled predictions from four different classifying models (K-Nearest Neighbors, Random Forest, Bagging, and Ridge). The Stacking model took predictions from all of those models, and used Logistic Regression to make its ultimate predictions. We ended up with an overall **accuracy of 91.4%**, and a recall score (true positive rate) of **97.1%**, meaning that the model was highly accurate among actual Trump-voting counties. False positives (inaccurate predictions of Trump victory) occurred frequently than false negatives (inaccurate predictions of Biden victory), so the model's precision was lower, at 93%. The f1 score was 95.0%. 
 
-Because Trump won 83% of all counties, the baseline model would be 83% accurate and that’s what we set out to beat.  After trying multiple models, we landed on a Stacking model that ensembled predictions from four different classifying models (K-Nearest Neighbors, Random Forest, Bagging, and Ridge). The Stacking model took predictions from all of those models, and used Logistic Regression to make its ultimate predictions. We ended up with an accuracy of 90.3% so we were able to improve on the baseline model by more than 7%.
+<p float="left">
+  <img src="graphs/classification_conf_matrix.png" width="75%" />
+</p>
 
 # Conclusions
 
@@ -89,9 +108,3 @@ However, as we foresaw, the clustering model suffered from missing data bearing 
 The stacked classification model successfully predicted 2020 election results with a higher degree of accuracy than the baseline using vaccination-related variables. This further supports our hypothesis that these variables are closely related. However, the fact that the vaccination data contained many missing values and that these values were represented as zeroes suggests that caution should be taken in interpreting specific numeric relationships regarding vaccine-related observations.
 
 The outcomes of both modeling exercises generally reinforce what has been observed about politics and COVID vaccination, and they allow some insight into specific trends and variable relationships as seen in the notebooks and slides contained in this repo. In addition to potential usefulness of this investigation to public health officials and government at the state and federal levels, the project is also of use to the general public, as a snapshot of where we were and where we are, and the extent to which the politics of two years ago are still largely replicated in our pandemic response.
-
----
-
-*README by Annie Bishai*
-
-*Slide deck by Ankita Patil, Jacqueline Simeone, & Andy Orfalea*
