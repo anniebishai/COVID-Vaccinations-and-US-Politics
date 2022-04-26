@@ -23,7 +23,7 @@ We hypothesize that applying a KMeans clustering model to our vaccine- and vacci
 
 Because of the close vaccine/election relationships in these data we have observed--and hope to observe further through our clustering model--we additionally predict that applying a supervised machine learning model to the same data may yield an accurate prediction of the voting tendencies of a county. We will explore this by training the model with a target variable drawn from the 2020 presidential election results.
 
-![Biden county vax rates](graphs/BidenVaxTime.png?raw=true width="50%" height="50%")
+![Biden county vax rates](graphs/BidenVaxTime.png?raw=true)
 
 # Modeling 
 
